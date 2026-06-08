@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html class="dark" lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONE TURQUIA — Discord Control Center</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+    darkMode: 'class',
+    theme: {
+        extend: {
+            colors: {
+                iosBg: { light: '#F2F2F7', dark: '#08080A' },
+                iosCard: { light: '#FFFFFF', dark: '#121214' },
+                iosBlue: '#0A84FF', iosGreen: '#30D158', iosRed: '#FF453A',
+                iosOrange: '#FF9F0A', iosGray: '#8E8E93'
+            }
+        }
+    }
+}
+</script>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif; background: #08080A; }
+.mac-blur { backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+.mac-blur-deep { backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); }
+.tab-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.shake-animation { animation: shake 0.2s ease-in-out 0s 2; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+.glass-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); }
+.glass-card-dark { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.06); }
+input:-webkit-autofill, input:-webkit-autofill:focus { transition: background-color 600000s 0s, color 600000s 0s; }
+input[data-autocompleted] { background-color: transparent !important; }
+</style>
+</head>
+<body class="bg-iosBg-dark text-white min-h-screen overflow-x-hidden">
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<div id="login-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image:url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop');filter:blur(2px)"></div>
+    <div class="absolute inset-0 bg-black/70 mac-blur-deep"></div>
+
+    <div class="relative z-10 text-center mb-12">
+        <div id="lock-clock" class="text-7xl md:text-8xl font-thin tracking-widest text-white/90 drop-shadow-lg">00:00</div>
+        <div id="lock-date" class="text-lg md:text-xl font-light text-white/60 mt-2 tracking-wide">Segunda-feira, 1 de Janeiro de 2026</div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-sm mx-4">
+        <div class="glass-card rounded-3xl p-8 mac-blur">
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-iosBlue to-purple-600 flex items-center justify-center mb-4 shadow-lg shadow-iosBlue/20">
+                    <i data-lucide="shield-user" class="w-10 h-10 text-white"></i>
+                </div>
+                <h1 class="text-2xl font-semibold text-white tracking-tight">ONE TURQUIA</h1>
+                <p class="text-sm text-white/50 mt-1">Servidor de roleplay</p>
+            </div>
+
+            <div class="space-y-3">
+                <div id="login-name-field" class="hidden">
+                    <input id="login-name" type="text" placeholder="Nome de utilizador"
+                        class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/40 text-sm outline-none focus:border-iosBlue/50 focus:bg-white/15 transition-all">
+                </div>
+                <input id="login-username" type="text" placeholder="Email ou nome de utilizador"
+                    class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/40 text-sm outline-none focus:border-iosBlue/50 focus:bg-white/15 transition-all">
+                <input id="login-password" type="password" placeholder="Palavra-passe"
+                    class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/40 text-sm outline-none focus:border-iosBlue/50 focus:bg-white/15 transition-all">
+                <button id="login-btn" onclick="tryLogin()"
+                    class="w-full py-3 rounded-xl bg-iosBlue text-white font-medium text-sm hover:bg-iosBlue/90 active:scale-[0.98] transition-all shadow-lg shadow-iosBlue/20">
+                    Entrar
+                </button>
+            </div>
+
+            <div class="flex justify-between items-center mt-4 text-xs">
+                <button id="login-toggle" onclick="toggleLoginMode()" class="text-white/40 hover:text-white/70 transition-colors">Criar conta</button>
+                <button id="quick-login" onclick="bypassLogin()" class="text-iosBlue hover:text-iosBlue/80 transition-colors font-medium">Entrada Rápida</button>
+            </div>
+        </div>
+        <p class="text-center text-white/20 text-[10px] mt-6 tracking-widest uppercase">Discord Control Center v2.0</p>
+    </div>
+</div>
+
+<!-- ===================== MAIN APP ===================== -->
+<div id="main-app" class="hidden min-h-screen flex flex-col">
+
+    <header class="glass-card-dark mac-blur sticky top-0 z-40 px-4 md:px-8 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-iosBlue to-purple-600 flex items-center justify-center">
+                <i data-lucide="shield-user" class="w-4 h-4 text-white"></i>
+            </div>
+            <h1 class="text-lg font-semibold tracking-tight">ONE TURQUIA</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="user-greeting" class="text-sm text-white/50 hidden md:inline">Olá, Utilizador</span>
+            <button onclick="terminateSession()" class="text-sm text-white/40 hover:text-white/70 transition-colors flex items-center gap-1.5">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Sair</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="flex-1 flex flex-col">
+
+        <!-- Tab Buttons -->
+        <div class="flex gap-1 px-4 md:px-8 pt-4 pb-2 border-b border-white/5">
+            <button id="btn-tab-hub" onclick="switchTab('hub')" class="tab-transition px-5 py-2 rounded-lg text-xs font-semibold text-white bg-white/10 shadow-sm">HUB</button>
+            <button id="btn-tab-controle" onclick="switchTab('controle')" class="tab-transition px-5 py-2 rounded-lg text-xs font-medium text-white/50 hover:text-white">CONTROLE</button>
+            <button id="btn-tab-ajustes" onclick="switchTab('ajustes')" class="tab-transition px-5 py-2 rounded-lg text-xs font-medium text-white/50 hover:text-white">AJUSTES</button>
+        </div>
+
+        <!-- HUB PANE -->
+        <div id="pane-hub" class="tab-pane flex-1 p-4 md:p-8 space-y-6">
+            <div class="glass-card rounded-2xl p-6">
+                <h2 class="text-2xl font-bold">Bem-vindo ao ONE TURQUIA Hub</h2>
+                <p class="text-white/50 mt-1">Painel de controlo principal do servidor.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="glass-card rounded-2xl p-5">
+                    <div class="flex items-center gap-3 mb-3"><i data-lucide="users" class="w-5 h-5 text-iosBlue"></i><h3 class="font-semibold">Membros</h3></div>
+                    <p class="text-2xl font-bold">0</p>
+                </div>
+                <div class="glass-card rounded-2xl p-5">
+                    <div class="flex items-center gap-3 mb-3"><i data-lucide="shopping-cart" class="w-5 h-5 text-iosGreen"></i><h3 class="font-semibold">Produtos</h3></div>
+                    <p class="text-2xl font-bold">0</p>
+                </div>
+                <div class="glass-card rounded-2xl p-5">
+                    <div class="flex items-center gap-3 mb-3"><i data-lucide="activity" class="w-5 h-5 text-iosOrange"></i><h3 class="font-semibold">Eventos</h3></div>
+                    <p class="text-2xl font-bold">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROLE PANE -->
+        <div id="pane-controle" class="tab-pane hidden flex-1 p-4 md:p-8 flex gap-6">
+
+            <!-- Sidebar -->
+            <aside class="w-44 shrink-0 space-y-1">
+                <button onclick="switchControleSubTab('registo')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium bg-white/10 text-white tab-transition">📋 Registrar</button>
+                <button onclick="switchControleSubTab('hierarquia')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">🏆 Hierarquia</button>
+                <button onclick="switchControleSubTab('acoes')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">🎯 Ações</button>
+                <button onclick="switchControleSubTab('farm')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">🌾 Farm</button>
+                <button onclick="switchControleSubTab('punicoes')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">💢 Punições</button>
+                <button onclick="switchControleSubTab('update')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">📢 Update</button>
+                <button onclick="switchControleSubTab('vendas')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">💰 Vendas</button>
+                <button onclick="switchControleSubTab('status')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">🟢 Status</button>
+                <button onclick="switchControleSubTab('reporte')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">📁 Reporte</button>
+                <button onclick="switchControleSubTab('ausencia')" class="w-full text-left px-4 py-2.5 rounded-xl text-sm text-white/50 hover:text-white tab-transition">💤 Ausência</button>
+            </aside>
+
+            <!-- Content -->
+            <div class="flex-1 glass-card rounded-2xl p-6">
+
+                <!-- REGISTO -->
+                <div id="sub-panel-registo" class="sub-panel space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold">📋 Configuração do Módulo Registrar</h3>
+                        <p class="text-sm text-white/50 mt-1">Configure os cargos de fluxo quando um utilizador se regista no servidor.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Cargo de Registo Inicial</label>
+                            <select id="reg-role-reg" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all appearance-none cursor-pointer">
+                                <option value="">A carregar cargos...</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Cargo Aprovado 1</label>
+                                <select id="reg-role-ap1" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all appearance-none cursor-pointer">
+                                    <option value="">A carregar cargos...</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Cargo Aprovado 2</label>
+                                <select id="reg-role-ap2" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all appearance-none cursor-pointer">
+                                    <option value="">A carregar cargos...</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Canal de Log de Registo</label>
+                            <select id="reg-channel-log" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all appearance-none cursor-pointer">
+                                <option value="">A carregar canais...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 active:scale-[0.98] transition-all shadow-lg shadow-iosBlue/20">Guardar Configurações</button>
+
+                    <div class="border-t border-white/5 pt-6 space-y-4">
+                        <div>
+                            <h3 class="text-sm font-bold">👤 Registar Novo Membro (Ação Rápida)</h3>
+                            <p class="text-xs text-white/50 mt-1">Registe manualmente as informações do novo recruta e associe o recrutador.</p>
+                        </div>
+                        <form id="form-action-registo" onsubmit="submitMembroRegisto(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Nome</label>
+                                    <input type="text" id="member-name" required placeholder="Nome do utilizador" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">ID</label>
+                                    <input type="text" id="member-id" required placeholder="Ex: 4893" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Telefone</label>
+                                    <input type="tel" id="member-phone" required placeholder="Nº de contacto" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Quem está a recrutar?</label>
+                                <select id="member-recruiter" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50 transition-all">
+                                    <option value="@Admin">@Admin (Administrador)</option>
+                                    <option value="@Dono">@Dono (Fundador)</option>
+                                    <option value="@Mod">@Mod (Moderador)</option>
+                                    <option value="@Sub-Dono">@Sub-Dono (Vice-Líder)</option>
+                                </select>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="bg-iosBlue hover:bg-blue-600 text-white text-xs font-bold px-5 py-3 rounded-xl shadow-md active:scale-95 transition-all flex items-center gap-1.5">
+                                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                                    <span>Submeter Registo</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- HIERARQUIA -->
+                <div id="sub-panel-hierarquia" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">🏆 Hierarquia de Cargos</h3><p class="text-sm text-white/50 mt-1">Cargos hierárquicos personalizados (Máximo 25).</p></div>
+                    <div id="hierarquia-list" class="space-y-2"></div>
+                    <button onclick="addHierarquiaItem()" class="text-sm text-iosBlue hover:text-iosBlue/80 flex items-center gap-1"><i data-lucide="plus" class="w-4 h-4"></i> Adicionar Nível</button>
+                </div>
+
+                <!-- AÇÕES -->
+                <div id="sub-panel-acoes" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">🎯 Gestão de Ações</h3><p class="text-sm text-white/50 mt-1">Crie e gerencie as ações da facção.</p></div>
+                    <div id="acoes-list" class="space-y-2"></div>
+                    <button onclick="addAcaoItem()" class="text-sm text-iosBlue hover:text-iosBlue/80 flex items-center gap-1"><i data-lucide="plus" class="w-4 h-4"></i> Adicionar Ação</button>
+                </div>
+
+                <!-- FARM -->
+                <div id="sub-panel-farm" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">🌾 Configuração do Módulo Farm</h3><p class="text-sm text-white/50 mt-1">Configure o sistema de Farm para os membros.</p></div>
+                    <div class="space-y-3">
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Canal de Logs de Farm</label><input id="farm-log" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Categoria</label><input id="farm-category" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Imagem</label><input id="farm-image" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Concluída</label><input id="farm-role-done" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Incompleta</label><input id="farm-role-pending" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Sem Entrega</label><input id="farm-role-none" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        </div>
+                    </div>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 transition-all">Guardar</button>
+                </div>
+
+                <!-- PUNIÇÕES -->
+                <div id="sub-panel-punicoes" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">💢 Configuração de Punições</h3><p class="text-sm text-white/50 mt-1">Sistema de advertências e cargos de punição.</p></div>
+                    <div class="space-y-3">
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Canal de Log de Punições</label><input id="punish-log" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Limite de Advertências</label><input id="punish-limit" type="number" value="3" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Adv 1</label><input id="punish-role-1" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Adv 2</label><input id="punish-role-2" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Adv 3</label><input id="punish-role-3" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        </div>
+                    </div>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 transition-all">Guardar</button>
+                </div>
+
+                <!-- UPDATE -->
+                <div id="sub-panel-update" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">📢 Configuração de Updates</h3><p class="text-sm text-white/50 mt-1">Cargos e canais para notificações de atualizações.</p></div>
+                    <div class="space-y-3">
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Geral</label><input id="up-role-general" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Filtro</label><input id="up-role-filter" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Canal de Log</label><input id="up-channel-log" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Promoção</label><input id="up-role-promo" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Rebaixado</label><input id="up-role-demote" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Cargo Gestão</label><input id="up-role-management" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        </div>
+                    </div>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 transition-all">Guardar</button>
+                </div>
+
+                <!-- VENDAS -->
+                <div id="sub-panel-vendas" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">💰 Configuração de Vendas</h3><p class="text-sm text-white/50 mt-1">Canal de log e gestão de vendas.</p></div>
+                    <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Canal de Log de Vendas</label><input id="sales-log" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                    <div id="vendas-list" class="space-y-2"></div>
+                    <button onclick="addVendaItem()" class="text-sm text-iosBlue hover:text-iosBlue/80 flex items-center gap-1"><i data-lucide="plus" class="w-4 h-4"></i> Adicionar Produto</button>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 transition-all">Guardar</button>
+                </div>
+
+                <!-- STATUS -->
+                <div id="sub-panel-status" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">🟢 Configuração de Status</h3><p class="text-sm text-white/50 mt-1">Cargos para cada estado do servidor.</p></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Online</label><input id="status-online" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Atualizando</label><input id="status-updating" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Offline</label><input id="status-offline" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Instável</label><input id="status-unstable" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                    </div>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 transition-all">Guardar</button>
+                </div>
+
+                <!-- REPORTE -->
+                <div id="sub-panel-reporte" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">📁 Configuração de Reporte</h3><p class="text-sm text-white/50 mt-1">Categoria para abertura de tickets de reporte.</p></div>
+                    <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Categoria</label><input id="report-category" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 transition-all">Guardar</button>
+                </div>
+
+                <!-- AUSÊNCIA -->
+                <div id="sub-panel-ausencia" class="sub-panel hidden space-y-6">
+                    <div><h3 class="text-lg font-bold">💤 Configuração de Ausência</h3><p class="text-sm text-white/50 mt-1">Sistema de justificação de ausência.</p></div>
+                    <div class="space-y-3">
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Canal de Log</label><input id="absence-log" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Título</label><input id="absence-title" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+                        <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Descrição</label><textarea id="absence-description" rows="3" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></textarea></div>
+                    </div>
+                    <button onclick="saveAllConfigs()" class="px-6 py-2.5 rounded-xl bg-iosBlue text-white text-sm font-medium hover:bg-iosBlue/90 transition-all">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- AJUSTES PANE -->
+        <div id="pane-ajustes" class="tab-pane hidden flex-1 p-4 md:p-8">
+            <div class="glass-card rounded-2xl p-6 max-w-lg">
+                <h2 class="text-lg font-bold mb-4">⚙️ Ajustes</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">Tema Escuro</span>
+                        <button id="themeToggle" onclick="document.documentElement.classList.toggle('dark')" class="w-10 h-5 rounded-full bg-white/20 relative transition-all"><span class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-all"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===================== REGISTRATION MODAL ===================== -->
+<div id="registration-modal-overlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 mac-blur">
+    <div class="glass-card rounded-2xl p-6 w-full max-w-md mx-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold">📝 Registar Membro</h3>
+            <button onclick="closeRegistrationModal()" class="text-white/40 hover:text-white/70 text-xl">&times;</button>
+        </div>
+        <div class="space-y-3">
+            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Nome</label><input id="modal-reg-name" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">ID Discord</label><input id="modal-reg-id" type="text" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Telefone</label><input id="modal-reg-phone" type="tel" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"></div>
+            <div><label class="block text-xs font-semibold text-white/50 uppercase mb-1">Recrutador</label><select id="modal-reg-recruiter" class="w-full px-4 py-3 rounded-xl bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none focus:border-iosBlue/50"><option value="@Admin">@Admin</option><option value="@Dono">@Dono</option><option value="@Mod">@Mod</option></select></div>
+        </div>
+        <button onclick="submitModalRegisto()" class="mt-4 w-full py-3 rounded-xl bg-iosBlue text-white font-medium text-sm hover:bg-iosBlue/90 transition-all">Submeter</button>
+    </div>
+</div>
+
+<!-- ===================== TOAST ===================== -->
+<div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-xl glass-card text-sm text-white opacity-0 pointer-events-none translate-y-2 transition-all duration-300">Mensagem</div>
+
+<script>
+const API_BASE = location.protocol === 'file:' ? 'http://127.0.0.1:3000' : '';
+let loginMode = 'login';
+
+let config = {
+    serverName: 'ONE TURQUIA',
+    serverSubtitle: 'Servidor de roleplay',
+    registrar: { roleReg: '', roleAp1: '', roleAp2: '', logChannel: '' },
+    hierarquia: [
+        { id: 1, name: 'Fundador', role: '@Dono' },
+        { id: 2, name: 'Administrador', role: '@Admin' },
+        { id: 3, name: 'Moderador', role: '@Mod' },
+        { id: 4, name: 'Membro Inicial', role: '@Membro Inicial' }
+    ],
+    acoes: [{ id: 1, name: 'Invasão de Território', weapon: 'HK MP5', vacanciesMin: 5, vacanciesMax: 15, rules: 'Sem blindados', perimeter: '250m' }],
+    punicoes: { log: '#logs-punicoes', warnsLimit: 3, roles: ['@Advertência 1', '@Advertência 2', '@Advertência 3'] },
+    farm: { log: '#logs-farm', category: '🌾 - ÁREA FARM', image: '', roleDone: '@Meta Concluída', rolePending: '@Meta Incompleta', roleNone: '@Sem Entrega' },
+    update: { general: '@Todos', filter: '@Filtro Ativo', log: '#logs-gerais', promo: '@Promovido', demote: '@Rebaixado', management: '@Gerente, @Diretor' },
+    vendas: { log: '#logs-financeiro' },
+    status: { online: '@Online', updating: '@Em Atualização', offline: '@Offline', unstable: '@Instável' },
+    reporte: { category: '📁 - SUPORTE' },
+    ausencia: { log: '#logs-ausencia', title: 'Justificação de Ausência', description: 'Preencha os campos solicitados para justificar a inatividade temporária.' }
+};
+
+function tryLogin() {
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+    const name = document.getElementById('login-name').value.trim();
+
+    if (!username || !password || (loginMode === 'signup' && !name)) {
+        showToast('Preencha todos os campos.', true);
+        document.getElementById('login-btn').classList.add('shake-animation');
+        setTimeout(() => document.getElementById('login-btn').classList.remove('shake-animation'), 500);
+        return;
+    }
+
+    const body = { action: loginMode, username, password };
+    if (loginMode === 'signup') body.name = name;
+
+    fetch(API_BASE + '/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.error) {
+            showToast(data.error, true);
+            return;
+        }
+        localStorage.setItem('macos_user', JSON.stringify(data));
+        bypassLogin();
+    })
+    .catch(() => {
+        showToast('Erro de conexão ao servidor.', true);
+    });
+}
+
+function toggleLoginMode() {
+    loginMode = loginMode === 'login' ? 'signup' : 'login';
+    const btn = document.getElementById('login-btn');
+    const toggle = document.getElementById('login-toggle');
+    const nameField = document.getElementById('login-name-field');
+
+    if (loginMode === 'signup') {
+        btn.textContent = 'Registar';
+        toggle.textContent = 'Já tenho conta';
+        nameField.classList.remove('hidden');
+    } else {
+        btn.textContent = 'Entrar';
+        toggle.textContent = 'Criar conta';
+        nameField.classList.add('hidden');
+    }
+}
+
+function bypassLogin() {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('main-app').classList.remove('hidden');
+    localStorage.setItem('macos_logged_in', 'true');
+    const userData = localStorage.getItem('macos_user');
+    if (userData) {
+        try {
+            const u = JSON.parse(userData);
+            document.getElementById('user-greeting').textContent = 'Olá, ' + (u.username || 'Utilizador');
+        } catch(e) {}
+    }
+}
+
+function terminateSession() {
+    localStorage.removeItem('macos_logged_in');
+    localStorage.removeItem('macos_user');
+    document.getElementById('main-app').classList.add('hidden');
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-name').value = '';
+    document.getElementById('login-name-field').classList.add('hidden');
+    loginMode = 'login';
+    document.getElementById('login-btn').textContent = 'Entrar';
+    document.getElementById('login-toggle').textContent = 'Criar conta';
+}
+
+function updateLockClock() {
+    const now = new Date();
+    const time = document.getElementById('lock-clock');
+    const date = document.getElementById('lock-date');
+    if (time) time.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    if (date) date.textContent = now.toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function fetchDiscordRoles() {
+    const ids = ['reg-role-reg','reg-role-ap1','reg-role-ap2'];
+    try {
+        fetch(API_BASE + '/api/discord/roles')
+        .then(r => r.json())
+        .then(roles => {
+            ids.forEach(id => {
+                const sel = document.getElementById(id);
+                if (!sel) return;
+                const cur = config.registrar[id === 'reg-role-reg' ? 'roleReg' : id === 'reg-role-ap1' ? 'roleAp1' : 'roleAp2'];
+                sel.innerHTML = '<option value="">Nenhum</option>';
+                roles.forEach(r => {
+                    const o = document.createElement('option');
+                    o.value = r.id;
+                    o.textContent = r.name;
+                    if (r.id === cur) o.selected = true;
+                    sel.appendChild(o);
+                });
+            });
+        })
+        .catch(() => {
+            ids.forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel) sel.innerHTML = '<option value="">Erro ao carregar</option>';
+            });
+        });
+    } catch(e) {}
+}
+
+function fetchDiscordChannels() {
+    try {
+        fetch(API_BASE + '/api/discord/channels')
+        .then(r => r.json())
+        .then(channels => {
+            const sel = document.getElementById('reg-channel-log');
+            if (!sel) return;
+            const cur = config.registrar.logChannel;
+            sel.innerHTML = '<option value="">Nenhum</option>';
+            channels.forEach(c => {
+                const o = document.createElement('option');
+                o.value = c.id;
+                o.textContent = '#' + c.name;
+                if (c.id === cur) o.selected = true;
+                sel.appendChild(o);
+            });
+        })
+        .catch(() => {
+            const sel = document.getElementById('reg-channel-log');
+            if (sel) sel.innerHTML = '<option value="">Erro ao carregar</option>';
+        });
+    } catch(e) {}
+}
+
+function initInputs() {
+    fetchDiscordRoles();
+    fetchDiscordChannels();
+}
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+    document.getElementById('pane-' + tabId).classList.remove('hidden');
+    ['hub','controle','ajustes'].forEach(id => {
+        const btn = document.getElementById('btn-tab-' + id);
+        if (id === tabId) {
+            btn.className = "tab-transition px-5 py-2 rounded-lg text-xs font-semibold text-white bg-white/10 shadow-sm";
+        } else {
+            btn.className = "tab-transition px-5 py-2 rounded-lg text-xs font-medium text-white/50 hover:text-white";
+        }
+    });
+}
+
+function switchControleSubTab(subTabId) {
+    document.querySelectorAll('.sub-panel').forEach(el => el.classList.add('hidden'));
+    document.getElementById('sub-panel-' + subTabId).classList.remove('hidden');
+    document.querySelectorAll('#pane-controle aside button').forEach(btn => {
+        btn.classList.remove('bg-white/10', 'text-white');
+        btn.classList.add('text-white/50');
+    });
+    const active = document.querySelector('#pane-controle aside button:nth-child(' + (['registo','hierarquia','acoes','farm','punicoes','update','vendas','status','reporte','ausencia'].indexOf(subTabId) + 1) + ')');
+    if (active) {
+        active.classList.remove('text-white/50');
+        active.classList.add('bg-white/10', 'text-white');
+    }
+}
+
+function saveAllConfigs() {
+    config.registrar.roleReg = document.getElementById('reg-role-reg')?.value || '';
+    config.registrar.roleAp1 = document.getElementById('reg-role-ap1')?.value || '';
+    config.registrar.roleAp2 = document.getElementById('reg-role-ap2')?.value || '';
+    config.registrar.logChannel = document.getElementById('reg-channel-log')?.value || '';
+    config.farm.log = document.getElementById('farm-log')?.value || '';
+    config.farm.category = document.getElementById('farm-category')?.value || '';
+    config.farm.image = document.getElementById('farm-image')?.value || '';
+    config.farm.roleDone = document.getElementById('farm-role-done')?.value || '';
+    config.farm.rolePending = document.getElementById('farm-role-pending')?.value || '';
+    config.farm.roleNone = document.getElementById('farm-role-none')?.value || '';
+    config.punicoes.log = document.getElementById('punish-log')?.value || '';
+    config.punicoes.warnsLimit = parseInt(document.getElementById('punish-limit')?.value || '3');
+    config.punicoes.roles[0] = document.getElementById('punish-role-1')?.value || '';
+    config.punicoes.roles[1] = document.getElementById('punish-role-2')?.value || '';
+    config.punicoes.roles[2] = document.getElementById('punish-role-3')?.value || '';
+    config.update.general = document.getElementById('up-role-general')?.value || '';
+    config.update.filter = document.getElementById('up-role-filter')?.value || '';
+    config.update.log = document.getElementById('up-channel-log')?.value || '';
+    config.update.promo = document.getElementById('up-role-promo')?.value || '';
+    config.update.demote = document.getElementById('up-role-demote')?.value || '';
+    config.update.management = document.getElementById('up-role-management')?.value || '';
+    config.vendas.log = document.getElementById('sales-log')?.value || '';
+    config.status.online = document.getElementById('status-online')?.value || '';
+    config.status.updating = document.getElementById('status-updating')?.value || '';
+    config.status.offline = document.getElementById('status-offline')?.value || '';
+    config.status.unstable = document.getElementById('status-unstable')?.value || '';
+    config.reporte.category = document.getElementById('report-category')?.value || '';
+    config.ausencia.log = document.getElementById('absence-log')?.value || '';
+    config.ausencia.title = document.getElementById('absence-title')?.value || '';
+    config.ausencia.description = document.getElementById('absence-description')?.value || '';
+    localStorage.setItem('discord_guild_config_macos_hub', JSON.stringify(config));
+    showToast('Sucesso: Todas as configurações foram guardadas!');
+}
+
+function showToast(message, isError) {
+    const toast = document.getElementById('toast');
+    const msgEl = document.getElementById('toast-message');
+    if (!toast) return;
+    toast.textContent = message;
+    if (isError) {
+        toast.style.borderLeft = '3px solid #FF453A';
+    } else {
+        toast.style.borderLeft = '3px solid #30D158';
+    }
+    toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+    toast.classList.add('translate-y-0');
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+        toast.classList.remove('translate-y-0');
+    }, 3000);
+}
+
+function openRegistrationModal() { document.getElementById('registration-modal-overlay').classList.remove('hidden'); }
+function closeRegistrationModal() { document.getElementById('registration-modal-overlay').classList.add('hidden'); }
+function submitModalRegisto() { showToast('Membro registado com sucesso!'); closeRegistrationModal(); }
+function submitMembroRegisto(e) { e.preventDefault(); showToast('Membro registado com sucesso!'); document.getElementById('form-action-registo').reset(); }
+
+function addHierarquiaItem() {
+    const list = document.getElementById('hierarquia-list');
+    const item = document.createElement('div');
+    item.className = 'flex gap-2 items-center';
+    item.innerHTML = '<input type="text" placeholder="Nome" class="flex-1 px-3 py-2 rounded-lg bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none"><input type="text" placeholder="Cargo" class="flex-1 px-3 py-2 rounded-lg bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none"><button onclick="this.parentElement.remove()" class="text-iosRed text-sm">Remover</button>';
+    list.appendChild(item);
+}
+
+function addAcaoItem() {
+    const list = document.getElementById('acoes-list');
+    const item = document.createElement('div');
+    item.className = 'flex gap-2 items-center';
+    item.innerHTML = '<input type="text" placeholder="Nome" class="flex-1 px-3 py-2 rounded-lg bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none"><input type="text" placeholder="Arma" class="flex-1 px-3 py-2 rounded-lg bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none"><button onclick="this.parentElement.remove()" class="text-iosRed text-sm">Remover</button>';
+    list.appendChild(item);
+}
+
+function addVendaItem() {
+    const list = document.getElementById('vendas-list');
+    const item = document.createElement('div');
+    item.className = 'flex gap-2 items-center';
+    item.innerHTML = '<input type="text" placeholder="Produto" class="flex-1 px-3 py-2 rounded-lg bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none"><input type="number" placeholder="Preço" class="w-24 px-3 py-2 rounded-lg bg-[#F2F2F7] dark:bg-zinc-900/60 text-white border border-white/5 text-sm outline-none"><button onclick="this.parentElement.remove()" class="text-iosRed text-sm">Remover</button>';
+    list.appendChild(item);
+}
+
+window.onload = function() {
+    const saved = localStorage.getItem('discord_guild_config_macos_hub');
+    if (saved) {
+        try { config = JSON.parse(saved); } catch(e) {}
+    }
+    initInputs();
+    updateLockClock();
+    setInterval(updateLockClock, 1000);
+
+    const logTerminal = document.getElementById('log-terminal');
+    if (logTerminal) {
+        const logs = [
+            { t: new Date().toLocaleTimeString('pt-PT'), m: 'Bot inicializado com sucesso na shard [0].', type: 'success' },
+            { t: new Date().toLocaleTimeString('pt-PT'), m: 'Sistema de registo configurado.', type: 'info' }
+        ];
+        logTerminal.innerHTML = logs.map(l => '<div class="text-xs ' + (l.type === 'success' ? 'text-iosGreen' : 'text-white/50') + '"><span class="opacity-50">[' + l.t + ']</span> ' + l.m + '</div>').join('');
+    }
+
+    if (localStorage.getItem('macos_logged_in') === 'true') {
+        bypassLogin();
+    }
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+};
+</script>
+</body>
+</html>

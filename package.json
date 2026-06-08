@@ -1,0 +1,14 @@
+{
+  "name": "one-turquia-hub",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "ONE TURQUIA Discord Control Center",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mongodb": "^6.10.0"
+  }
+}
