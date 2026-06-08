@@ -1,0 +1,1009 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>One Games | Portal Oficial</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="auth-locked">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="topbar-cluster">
+          <button id="notificationsButton" class="nav-notification" type="button" aria-label="Notificações">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+              <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+            </svg>
+            <span>Notificações</span>
+          </button>
+          <nav class="nav" aria-label="Navegacao principal">
+            <a href="#home">Hub</a>
+            <a href="#events">Eventos</a>
+            <a href="#games">Games</a>
+            <a href="#shop">Shop</a>
+            <a href="#bot">Bot</a>
+            <a href="#settings">Ajustes</a>
+          </nav>
+          <div class="topbar-actions">
+            <div class="topbar-account" aria-label="Perfil">
+              <a class="user-entry" href="#profile" aria-label="Abrir perfil">
+                <span class="avatar-mini" aria-hidden="true"></span>
+                <span class="account-copy">
+                  <span class="username" data-user-name>ONE HUB</span>
+                  <small>Administrador</small>
+                </span>
+              </a>
+              <button id="topbarLogout" class="account-icon-button logout-mini" type="button" aria-label="Sair da conta">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M11 20H2" />
+                  <path d="M11 4.562v16.157a1 1 0 0 0 1.242.97L19 20V5.562a2 2 0 0 0-1.515-1.94l-4-1A2 2 0 0 0 11 4.561z" />
+                  <path d="M11 4H8a2 2 0 0 0-2 2v14" />
+                  <path d="M14 12h.01" />
+                  <path d="M22 20h-3" />
+                </svg>
+              </button>
+            </div>
+            <button id="usersDirectoryButton" class="directory-top-button" type="button" aria-label="Abrir usuários">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M10 4v4" />
+                <path d="M2 8h20" />
+                <path d="M6 4v4" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="login" class="page active">
+        <div class="login-shell">
+          <div class="login-media">
+            <video autoplay muted loop playsinline poster="">
+              <source src="https://r2.fivemanage.com/vLUsF9vzqBOo7DSFHERFX/8de4f5f260feb43f5d325a06c4231559_720w.mp4" type="video/mp4" />
+            </video>
+            <span class="login-media-mark" aria-hidden="true">*</span>
+            <div class="login-media-copy">
+              <span>Você pode acessar facilmente</span>
+              <strong>Seu hub pessoal de games, eventos e recompensas</strong>
+            </div>
+          </div>
+
+          <div class="login-panel">
+            <span class="login-brand-mark" aria-hidden="true">*</span>
+            <h1>Acesse sua conta</h1>
+            <p>Entre para acessar games, eventos, shop e seu perfil sincronizado em um só lugar.</p>
+            <form id="accountForm" class="login-fields">
+              <label>
+                Usuário
+                <input id="accountUsername" name="username" type="text" autocomplete="username" placeholder="Digite seu usuário" />
+              </label>
+              <label>
+                Senha
+                <input id="accountPassword" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" />
+              </label>
+              <button id="accountSubmit" class="account-submit" type="submit">Entrar</button>
+            </form>
+            <button id="accountModeToggle" class="account-mode-toggle" type="button">Criar conta</button>
+            <div class="login-divider"><span>Outros métodos de login</span></div>
+            <div class="login-alt-actions">
+              <button id="discordLogin" class="discord-login" type="button" aria-label="Entrar com Discord">
+                <svg class="discord-mini-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36" fill="currentColor" aria-hidden="true">
+                  <path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.35 2.66-2.06a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.4 2.66 2.06a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z" />
+                </svg>
+              </button>
+              <button id="hourglassLogin" class="hourglass-login" type="button" aria-label="Entrar com usuario e senha">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 22h14" />
+                  <path d="M5 2h14" />
+                  <path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22" />
+                  <path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="home" class="page">
+        <div class="hero-clean">
+          <p class="eyebrow">One Games</p>
+          <h1>Jogue.<br />Compita. Conquiste.</h1>
+          <p>
+            O ecossistema de mini games da ONE. Ganhe ONE COIN, participe de eventos especiais e personalize seu perfil com itens exclusivos.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary icon-button" href="#games">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5.14v13.72a1 1 0 0 0 1.55.83l10.29-6.86a1 1 0 0 0 0-1.66L9.55 4.31A1 1 0 0 0 8 5.14Z" />
+              </svg>
+              Comecar a Jogar
+            </a>
+            <a class="button secondary icon-button" href="#shop">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M7 7V6a5 5 0 0 1 10 0v1h1.2a2 2 0 0 1 1.99 2.2l-.8 8A3 3 0 0 1 16.4 20H7.6a3 3 0 0 1-2.99-2.8l-.8-8A2 2 0 0 1 5.8 7H7Zm2 0h6V6a3 3 0 0 0-6 0v1Z" />
+              </svg>
+              Explorar a Loja
+            </a>
+          </div>
+        </div>
+
+        <div class="feature-grid" id="hubCards"></div>
+      </section>
+
+      <section id="events" class="page">
+        <div class="page-heading">
+          <p class="eyebrow">Eventos</p>
+          <h1>Mega eventos da comunidade</h1>
+          <p>Participe de temporadas, desafios de ranking e campanhas com shop temporario.</p>
+        </div>
+
+        <div id="eventsList" class="events-list"></div>
+      </section>
+
+      <section id="event-detail" class="page">
+        <div class="event-detail-view">
+          <div class="game-detail-bar">
+            <a class="button secondary" href="#events">Voltar aos eventos</a>
+          </div>
+
+          <article class="event-detail-card">
+            <span id="eventDetailStatus" class="status">Ativo agora</span>
+            <h1 id="eventDetailTitle">Novo Evento ONE</h1>
+            <p id="eventDetailMainDescription">Configure a descricao principal do evento.</p>
+            <div id="eventDetailDescription" class="event-detail-description">
+              <p>Configure a descricao detalhada do evento.</p>
+            </div>
+            <div id="eventDetailTags" class="event-stats">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M6.38 18.7 4 21"/><path d="M17.64 18.67 20 21"/></svg>
+                <strong>22:00</strong> Horas
+              </span>
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                Local do evento
+              </span>
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v14"/><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/><path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"/><rect x="3" y="7" width="18" height="4" rx="1"/></svg>
+                <strong>Premiacao</strong>
+              </span>
+            </div>
+            <button id="eventDetailAction" class="button primary event-action" type="button">Participar</button>
+            <img id="eventDetailBanner" class="event-detail-image" src="https://r2.fivemanage.com/vLUsF9vzqBOo7DSFHERFX/imagem_2026-06-04_164833039.png" alt="Banner do evento" />
+          </article>
+        </div>
+      </section>
+
+      <section id="games" class="page">
+        <div class="page-heading">
+          <p class="eyebrow">Games</p>
+          <h1>Jogos</h1>
+          <p>Escolha um game para jogar, apostar ONE COIN ou acompanhar os proximos lancamentos.</p>
+        </div>
+
+        <div id="gamesMenu" class="games-menu">
+          <article class="game-menu-card available" data-open-game="roulette">
+            <div id="rouletteBannerArt" class="game-menu-art roulette-art">
+              <img id="rouletteBannerImage" alt="" />
+              <span id="rouletteBannerMark">ONE</span>
+            </div>
+            <div class="game-menu-copy">
+              <span id="rouletteBannerStatus" class="game-tag">Disponivel</span>
+              <h2 id="rouletteBannerTitle">Roleta ONE</h2>
+              <p id="rouletteBannerDescription">Aposte em azul, branco ou preto em uma roleta limpa estilo cassino.</p>
+              <button class="button primary" type="button">Abrir jogo</button>
+            </div>
+          </article>
+
+          <article class="game-menu-card spoiler-card locked">
+            <div class="game-menu-art spoiler-art">
+              <span>?</span>
+            </div>
+            <div class="game-menu-copy">
+              <span class="game-tag">Spoiler</span>
+              <h2>Proximo game secreto</h2>
+              <p>Um novo modo esta sendo preparado para o cassino ONE.</p>
+              <button class="button secondary" type="button" disabled>Bloqueado</button>
+            </div>
+          </article>
+        </div>
+
+        <div id="rouletteGame" class="game-detail hidden">
+          <div class="game-detail-bar">
+            <button id="backToGames" class="button secondary" type="button">Voltar aos jogos</button>
+          </div>
+
+          <div class="games-layout">
+            <article class="roulette-panel">
+              <div class="game-header">
+                <span class="version">Teste</span>
+                <div>
+                  <h2>Roleta ONE</h2>
+                  <p>Gire para tentar ganhar 30 One Coins, tickets, multiplicador 2x ou tentar novamente.</p>
+                </div>
+              </div>
+
+              <div class="roulette-stage carousel-stage">
+                <div class="roulette-pointer carousel-pointer" aria-hidden="true"></div>
+                <div class="carousel-window" aria-label="Roleta em carrossel">
+                  <div id="rouletteWheel" class="roulette-carousel"></div>
+                </div>
+              </div>
+
+              <div class="spin-console">
+                <div class="spin-cost">
+                  <span>Custo do giro</span>
+                  <div class="payment-toggle" aria-label="Forma de pagamento do giro">
+                    <button class="active" data-payment="coins" type="button">ONE COIN</button>
+                    <button data-payment="ticket" type="button">Ticket</button>
+                  </div>
+                  <label>
+                    <strong id="paymentIcon" class="payment-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M11.051 7.616a1 1 0 0 1 1.909.024l.737 1.452a1 1 0 0 0 .737.535l1.634.256a1 1 0 0 1 .588 1.806l-1.172 1.168a1 1 0 0 0-.282.866l.259 1.613a1 1 0 0 1-1.541 1.134l-1.465-.75a1 1 0 0 0-.912 0l-1.465.75a1 1 0 0 1-1.539-1.133l.258-1.613a1 1 0 0 0-.282-.867l-1.156-1.152a1 1 0 0 1 .572-1.822l1.633-.256a1 1 0 0 0 .737-.535z" />
+                      </svg>
+                    </strong>
+                    <input id="betAmount" type="text" value="50" readonly />
+                  </label>
+                </div>
+                <button id="spinRoulette" class="button primary spin-button" type="button">Girar roleta</button>
+                <div class="casino-balance spin-balance">
+                  <span>Saldo disponivel</span>
+                  <strong><span id="gameBalance">1.250</span> <span class="coin-inline" aria-label="ONE COIN"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M11.051 7.616a1 1 0 0 1 1.909.024l.737 1.452a1 1 0 0 0 .737.535l1.634.256a1 1 0 0 1 .588 1.806l-1.172 1.168a1 1 0 0 0-.282.866l.259 1.613a1 1 0 0 1-1.541 1.134l-1.465-.75a1 1 0 0 0-.912 0l-1.465.75a1 1 0 0 1-1.539-1.133l.258-1.613a1 1 0 0 0-.282-.867l-1.156-1.152a1 1 0 0 1 .572-1.822l1.633-.256a1 1 0 0 0 .737-.535z" /></svg></span></strong>
+                </div>
+                <div class="game-feedback" id="rouletteFeedback">Gire para revelar seu premio.</div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="shop" class="page">
+        <div class="shop-head">
+          <div>
+            <p class="eyebrow">Shop</p>
+            <h1>Personalize sua experiencia</h1>
+            <p>Compre bordas, temas e titulos usando ONE COIN.</p>
+          </div>
+          <div class="balance-chip">
+            <span>Seu saldo</span>
+            <strong><span id="shopBalance">1.250</span> <span class="coin-inline" aria-label="ONE COIN"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M11.051 7.616a1 1 0 0 1 1.909.024l.737 1.452a1 1 0 0 0 .737.535l1.634.256a1 1 0 0 1 .588 1.806l-1.172 1.168a1 1 0 0 0-.282.866l.259 1.613a1 1 0 0 1-1.541 1.134l-1.465-.75a1 1 0 0 0-.912 0l-1.465.75a1 1 0 0 1-1.539-1.133l.258-1.613a1 1 0 0 0-.282-.867l-1.156-1.152a1 1 0 0 1 .572-1.822l1.633-.256a1 1 0 0 0 .737-.535z" /></svg></span></strong>
+          </div>
+        </div>
+
+        <div class="filters" aria-label="Filtros da loja">
+          <button class="active" data-shop-filter="all" type="button">Todos os itens</button>
+          <button data-shop-filter="fivem" type="button">Fivem</button>
+          <button class="filter-with-arrow" data-shop-filter="frame" data-frame-toggle type="button">
+            Molduras
+            <span aria-hidden="true"></span>
+          </button>
+          <button class="filter-with-arrow" data-shop-filter="theme" data-theme-toggle type="button">
+            Temas
+            <span aria-hidden="true"></span>
+          </button>
+          <button data-shop-filter="title" type="button">Tag</button>
+          <button data-shop-filter="owned" type="button">Comprados</button>
+        </div>
+        <div class="filters subfilters frame-subfilters hidden" aria-label="Raridade das molduras">
+          <button data-shop-filter="common" type="button">Comum</button>
+          <button data-shop-filter="rare" type="button">Raro</button>
+          <button data-shop-filter="epic" type="button">Épico</button>
+          <button data-shop-filter="legendary" type="button">Lendário</button>
+          <button data-shop-filter="ultra" type="button">Ultra</button>
+        </div>
+        <div class="filters subfilters theme-subfilters hidden" aria-label="Raridade dos temas">
+          <button data-shop-filter="theme-common" type="button">Comum</button>
+          <button data-shop-filter="theme-rare" type="button">Raro</button>
+          <button data-shop-filter="theme-epic" type="button">Épico</button>
+          <button data-shop-filter="theme-legendary" type="button">Lendário</button>
+          <button data-shop-filter="theme-ultra" type="button">Ultra</button>
+        </div>
+
+        <div id="shopGrid" class="shop-grid"></div>
+      </section>
+
+      <section id="bot" class="page">
+        <div class="page-heading">
+          <p class="eyebrow">Bot</p>
+          <h1>ONE Bot</h1>
+          <p>Comandos, status e configurações do bot ONE diretamente pelo Hub.</p>
+        </div>
+
+        <div class="bot-status-bar">
+          <span class="bot-status-indicator offline">
+            <span class="bot-status-dot"></span>
+            <span class="bot-status-label">Verificando...</span>
+          </span>
+          <span class="bot-metric">
+            <strong id="botGuildsCount">-</strong>
+            <small>Servidores</small>
+          </span>
+          <span class="bot-metric">
+            <strong id="botUsersCount">-</strong>
+            <small>Usuários</small>
+          </span>
+          <span class="bot-metric">
+            <strong id="botCommandsCount">14</strong>
+            <small>Comandos</small>
+          </span>
+          <button id="botRefreshStatus" class="button secondary icon-button" type="button" title="Atualizar status">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+          </button>
+        </div>
+
+        <div class="bot-content">
+          <aside class="bot-sidebar" aria-label="Categorias de comandos">
+            <button class="active" data-bot-category="all" type="button">Todos</button>
+            <button data-bot-category="system" type="button">Sistema</button>
+            <button data-bot-category="hierarchy" type="button">Hierarquia</button>
+            <button data-bot-category="actions" type="button">Ações</button>
+            <button data-bot-category="moderation" type="button">Moderação</button>
+            <button data-bot-category="utilities" type="button">Utilidades</button>
+          </aside>
+          <div class="bot-commands-grid" id="botCommandsGrid"></div>
+        </div>
+      </section>
+
+      <section id="profile" class="page">
+        <div class="profile-dashboard">
+          <article class="profile-showcase">
+            <div class="profile-avatar-wrap">
+              <div id="profileAvatar" class="profile-avatar">K</div>
+              <span>Level 18</span>
+            </div>
+            <div class="profile-copy">
+              <p class="eyebrow">Perfil</p>
+              <h1 data-user-name>Kawanone</h1>
+              <span id="profileTitle">Novato</span>
+            </div>
+            <div class="profile-balance">
+              <span>Saldo</span>
+              <strong><span id="coinBalance">1.250</span> <span class="coin-inline" aria-label="ONE COIN"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M11.051 7.616a1 1 0 0 1 1.909.024l.737 1.452a1 1 0 0 0 .737.535l1.634.256a1 1 0 0 1 .588 1.806l-1.172 1.168a1 1 0 0 0-.282.866l.259 1.613a1 1 0 0 1-1.541 1.134l-1.465-.75a1 1 0 0 0-.912 0l-1.465.75a1 1 0 0 1-1.539-1.133l.258-1.613a1 1 0 0 0-.282-.867l-1.156-1.152a1 1 0 0 1 .572-1.822l1.633-.256a1 1 0 0 0 .737-.535z" /></svg></span></strong>
+            </div>
+          </article>
+
+          <div class="profile-stats">
+            <article>
+              <span>Ranking</span>
+              <strong>Prata</strong>
+            </article>
+            <article>
+              <span>Conquistas</span>
+              <strong>3</strong>
+            </article>
+            <article>
+              <span>Itens</span>
+              <strong id="inventoryCount">0</strong>
+            </article>
+          </div>
+
+          <article class="profile-panel equipped-panel">
+            <div class="panel-title">
+              <h2>Equipado</h2>
+              <span>Shop sync</span>
+            </div>
+            <div class="equipped-grid">
+              <div>
+                <span>Borda</span>
+                <strong id="equippedFrame">Nenhuma</strong>
+              </div>
+              <div>
+                <span>Tema</span>
+                <strong id="equippedTheme">Nenhum</strong>
+              </div>
+              <div>
+                <span>Tag</span>
+                <strong id="equippedTitle">Novato</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="profile-panel inventory-panel">
+            <div class="panel-title">
+              <h2>Inventario</h2>
+              <span id="inventoryBadge">0 itens</span>
+            </div>
+            <div id="inventoryList" class="inventory-list">
+              <span class="empty-state">Compre itens no shop para equipar aqui.</span>
+            </div>
+          </article>
+
+          <article class="profile-panel account-panel">
+            <div>
+              <h2>Conta</h2>
+              <p>Gerencie o acesso usado para entrar no ONE HUB.</p>
+            </div>
+            <button id="discordLogout" type="button">Sair da conta Discord</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="settings" class="page">
+        <div class="page-heading">
+          <p class="eyebrow">Admin</p>
+          <h1>Dashboard</h1>
+          <p>Gerencie o Hub, eventos, games e produtos da plataforma.</p>
+        </div>
+
+        <article id="settingsAccessGate" class="settings-access-gate hidden">
+          <div>
+            <h2>Acesso aos Ajustes</h2>
+            <p>Digite o codigo de 4 digitos para liberar as funcoes administrativas.</p>
+          </div>
+          <div class="settings-pin-dots" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <input id="settingsAccessInput" class="settings-pin-input" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Codigo de acesso" />
+          <div class="settings-keypad" aria-label="Teclado de acesso">
+            <button type="button" data-settings-key="1">1</button>
+            <button type="button" data-settings-key="2">2</button>
+            <button type="button" data-settings-key="3">3</button>
+            <button type="button" data-settings-key="4">4</button>
+            <button type="button" data-settings-key="5">5</button>
+            <button type="button" data-settings-key="6">6</button>
+            <button type="button" data-settings-key="7">7</button>
+            <button type="button" data-settings-key="8">8</button>
+            <button type="button" data-settings-key="9">9</button>
+            <span aria-hidden="true"></span>
+            <button type="button" data-settings-key="0">0</button>
+            <button class="settings-key-back" type="button" data-settings-key="back" aria-label="Apagar">⌫</button>
+          </div>
+        </article>
+
+        <div id="settingsShell" class="settings-shell hidden">
+          <aside class="settings-sidebar" aria-label="Categorias de ajustes">
+            <div class="settings-window-controls" aria-hidden="true">
+              <span class="control-red"></span>
+              <span class="control-yellow"></span>
+              <span class="control-green"></span>
+            </div>
+            <label class="settings-sidebar-search">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+              <input id="settingsSidebarSearch" type="search" placeholder="Buscar" />
+            </label>
+            <div class="settings-menu-group">
+              <strong>Sistema Hub</strong>
+              <button class="active" data-settings-tab="one-coins" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M11.051 7.616a1 1 0 0 1 1.909.024l.737 1.452a1 1 0 0 0 .737.535l1.634.256a1 1 0 0 1 .588 1.806l-1.172 1.168a1 1 0 0 0-.282.866l.259 1.613a1 1 0 0 1-1.541 1.134l-1.465-.75a1 1 0 0 0-.912 0l-1.465.75a1 1 0 0 1-1.539-1.133l.258-1.613a1 1 0 0 0-.282-.867l-1.156-1.152a1 1 0 0 1 .572-1.822l1.633-.256a1 1 0 0 0 .737-.535z"/></svg>
+                One Coins
+              </button>
+              <button data-settings-tab="events-create" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                Eventos
+              </button>
+              <button data-settings-tab="hub-featured" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                Cards do Hub
+              </button>
+              <button data-settings-tab="themes" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4A1.75 1.75 0 0 1 12 22"/><circle cx="7.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="12" cy="7.5" r=".5" fill="currentColor"/><circle cx="16.5" cy="10.5" r=".5" fill="currentColor"/></svg>
+                Temas
+              </button>
+              <button data-settings-tab="shop-create" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h8.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+                Shop
+              </button>
+              <button data-settings-tab="changelogs" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 13h4"/><path d="M10 17h4"/></svg>
+                Changelogs
+              </button>
+              <button data-settings-tab="bot-config" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M20 15h2"/><path d="M9 2v2"/><path d="M9 20v2"/><path d="M2 9h2"/><path d="M20 9h2"/></svg>
+                Bot
+              </button>
+            </div>
+            <div class="settings-sidebar-tools">
+              <div class="settings-theme-row">
+                <span class="settings-theme-label">
+                  <svg class="theme-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                  <span id="settingsThemeText">Modo Claro</span>
+                </span>
+                <button id="themeToggle" class="settings-theme-switch" type="button" aria-label="Alternar tema">
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </aside>
+
+          <div class="settings-content">
+            <div class="settings-content-header">
+              <h1 id="settingsContentTitle">One Coins</h1>
+            </div>
+            <div class="settings-scroll">
+            <div class="settings-section active" data-settings-section="one-coins">
+              <div class="settings-admin-head">
+                <div>
+                  <h2>Gerenciar One Coins</h2>
+                  <p>Adicione ou remova moedas da carteira dos jogadores.</p>
+                </div>
+                <input id="coinPlayerSearch" class="settings-search" type="search" placeholder="Buscar jogador..." />
+              </div>
+              <div class="one-coins-table">
+                <div class="one-coins-row one-coins-header">
+                  <span>Jogador</span>
+                  <span>Saldo Atual (OC)</span>
+                  <span>Ação</span>
+                </div>
+                <div id="hubCoinRows"></div>
+              </div>
+            </div>
+
+            <div class="settings-section" data-settings-section="changelogs">
+              <div class="settings-admin-head">
+                <div>
+                  <h2>Changelogs</h2>
+                  <p>Registre atualizações e novidades do ONE HUB.</p>
+                </div>
+              </div>
+              <article class="settings-panel">
+                <div class="settings-placeholder">
+                  <strong>Últimas atualizações</strong>
+                  <span>Nenhum changelog publicado ainda.</span>
+                </div>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="themes">
+              <div class="settings-admin-head">
+                <div>
+                  <h2>Temas Globais</h2>
+                  <p>Escolha o tema que será aplicado para todos os usuários do Hub.</p>
+                </div>
+              </div>
+              <div class="global-theme-grid">
+                <button class="global-theme-card active" type="button" data-global-theme="default">
+                  <span class="global-theme-preview theme-preview-default"></span>
+                  <strong>Padrão</strong>
+                  <small>Visual limpo do ONE HUB.</small>
+                </button>
+                <button class="global-theme-card" type="button" data-global-theme="blueprint">
+                  <span class="global-theme-preview theme-preview-blueprint"></span>
+                  <strong>Blueprint</strong>
+                  <small>Azul técnico com linhas frias.</small>
+                </button>
+                <button class="global-theme-card" type="button" data-global-theme="midnight">
+                  <span class="global-theme-preview theme-preview-midnight"></span>
+                  <strong>Midnight</strong>
+                  <small>Escuro premium para o Hub.</small>
+                </button>
+                <button class="global-theme-card" type="button" data-global-theme="hello-kit">
+                  <span class="global-theme-preview theme-preview-hello-kit"></span>
+                  <strong>Hello Kit</strong>
+                  <small>Paleta rosa global com background especial.</small>
+                </button>
+                <button class="global-theme-card" type="button" data-global-theme="cartas-megan">
+                  <span class="global-theme-preview theme-preview-cartas-megan"></span>
+                  <strong>EVENTO CARTAS DA MEGAN</strong>
+                  <small>Pergaminho, vermelho nobre e clima de caça ao tesouro.</small>
+                </button>
+              </div>
+            </div>
+
+            <div class="settings-section" data-settings-section="hub-featured">
+              <div class="settings-dashboard-head">
+                <h2>Dashboard Overview</h2>
+                <p>Resumo operacional da plataforma.</p>
+              </div>
+              <div class="settings-metrics">
+                <article>
+                  <span>Tráfego Mensal</span>
+                  <strong>1.24M</strong>
+                  <em>+12.5%</em>
+                </article>
+                <article>
+                  <span>Vendas da Loja</span>
+                  <strong>R$ 14.320</strong>
+                  <em>+5.2%</em>
+                </article>
+                <article>
+                  <span>Status dos Servidores</span>
+                  <strong>99.9% Up</strong>
+                  <em>Estável</em>
+                </article>
+              </div>
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Cards Destaque</h2>
+                  <p>Primeiro card do Hub, usado para divulgar Games, Eventos ou Shop.</p>
+                </div>
+                <form class="hub-config" data-card="featured">
+                  <label>
+                    Categoria
+                    <select name="target">
+                      <option value="games">Games</option>
+                      <option value="events">Eventos</option>
+                      <option value="shop">Shop</option>
+                    </select>
+                  </label>
+                  <label>
+                    Titulo
+                    <input name="title" type="text" maxlength="28" />
+                  </label>
+                  <label>
+                    Descricao
+                    <textarea name="description" maxlength="120" rows="3"></textarea>
+                  </label>
+                </form>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="hub-live">
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Cards Ao Vivo</h2>
+                  <p>Segundo card do Hub, ideal para campanhas ativas e chamadas urgentes.</p>
+                </div>
+                <form class="hub-config" data-card="live">
+                  <label>
+                    Categoria
+                    <select name="target">
+                      <option value="events">Eventos</option>
+                      <option value="games">Games</option>
+                      <option value="shop">Shop</option>
+                    </select>
+                  </label>
+                  <label>
+                    Titulo
+                    <input name="title" type="text" maxlength="28" />
+                  </label>
+                  <label>
+                    Descricao
+                    <textarea name="description" maxlength="120" rows="3"></textarea>
+                  </label>
+                </form>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="events-create">
+              <article class="settings-events-card">
+                <div class="settings-events-head">
+                  <div>
+                    <h2>Eventos Ativos</h2>
+                    <p>Gerencie o calendario de campeonatos.</p>
+                  </div>
+                  <button class="settings-new-event" type="button" data-settings-open="events-edit">
+                    <span aria-hidden="true">+</span>
+                    Novo Evento
+                  </button>
+                </div>
+                <div class="settings-events-table" role="table" aria-label="Eventos ativos">
+                  <div class="settings-events-row settings-events-header" role="row">
+                    <span role="columnheader">Nome do Evento</span>
+                    <span role="columnheader">Data</span>
+                    <span role="columnheader">Status</span>
+                    <span role="columnheader">Inscritos</span>
+                    <span role="columnheader">Ações</span>
+                  </div>
+                  <div id="settingsEventsRows"></div>
+                </div>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="events-edit">
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Novo Evento</h2>
+                  <p>Configure o evento principal exibido no Hub, na categoria Eventos e na pagina de detalhes.</p>
+                </div>
+                <form id="eventCreateForm" class="event-config">
+                  <label>
+                    Titulo do evento
+                    <input name="title" type="text" maxlength="48" />
+                  </label>
+                  <label>
+                    Descrição principal
+                    <textarea name="mainDescription" maxlength="160" rows="3"></textarea>
+                  </label>
+                  <label>
+                    Banner principal
+                    <input name="bannerUrl" type="url" placeholder="https://..." />
+                  </label>
+                  <div class="form-row">
+                    <label>
+                      Horas
+                      <input name="hours" type="text" maxlength="24" />
+                    </label>
+                    <label>
+                      Local
+                      <input name="location" type="text" maxlength="42" />
+                    </label>
+                    <label>
+                      Premiação
+                      <input name="reward" type="text" maxlength="48" />
+                    </label>
+                  </div>
+                  <label>
+                    Descrição do evento dentro do card
+                    <textarea name="detailDescription" rows="8"></textarea>
+                  </label>
+                  <button class="button primary settings-submit" type="submit">Criar evento</button>
+                </form>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="games-status">
+              <article class="settings-games-card">
+                <div class="settings-games-head">
+                  <h2>Catálogo de Games</h2>
+                  <p>Gerencie o portfólio exibido aos usuários.</p>
+                </div>
+                <label class="settings-game-select">
+                  <span>Selecione para configurar</span>
+                  <select aria-label="Selecionar game">
+                    <option>Roleta ONE</option>
+                  </select>
+                </label>
+                <div class="settings-game-preview">
+                  <img id="settingsGamePreviewImage" alt="" />
+                  <div class="settings-game-preview-copy">
+                    <h3 id="settingsGamePreviewTitle">Roleta ONE</h3>
+                    <p id="settingsGamePreviewDescription">Aposte em azul, branco ou preto em uma roleta limpa estilo cassino.</p>
+                  </div>
+                  <button class="settings-game-edit" type="button" data-settings-open="games-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    Editar Informações
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="games-edit">
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Editar game</h2>
+                  <p>Edite o banner da Roleta ONE exibido no menu da categoria Games.</p>
+                </div>
+                <form class="game-config" data-game="roulette">
+                  <label>
+                    Titulo
+                    <input name="title" type="text" maxlength="28" />
+                  </label>
+                  <label>
+                    Descricao
+                    <textarea name="description" maxlength="130" rows="3"></textarea>
+                  </label>
+                  <label>
+                    Link da imagem do banner
+                    <input name="imageUrl" type="url" placeholder="https://..." />
+                  </label>
+                </form>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="shop-create">
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Criar Produtos</h2>
+                  <p>Cadastre novos itens para aparecerem no Shop com categoria, raridade, banner, valor e quantidade.</p>
+                </div>
+                <button class="button secondary settings-inline-action" type="button" data-settings-open="shop-edit">Editar produtos existentes</button>
+                <form class="product-config">
+                  <label>
+                    Nome do produto
+                    <input name="name" type="text" maxlength="48" />
+                  </label>
+                  <label>
+                    Descrição
+                    <textarea name="description" maxlength="180" rows="3"></textarea>
+                  </label>
+                  <div class="form-row">
+                    <label>
+                      Categoria
+                      <select name="category">
+                        <option value="fivem">Fivem</option>
+                        <option value="frame">Molduras</option>
+                        <option value="theme">Temas</option>
+                        <option value="title">Tag</option>
+                      </select>
+                    </label>
+                    <label>
+                      Raridade
+                      <select name="rarity">
+                        <option value="common">Comum</option>
+                        <option value="rare">Raro</option>
+                        <option value="epic">Épico</option>
+                        <option value="legendary">Lendário</option>
+                        <option value="ultra">Ultra</option>
+                      </select>
+                    </label>
+                    <label>
+                      Valor
+                      <input name="price" type="number" min="0" step="1" value="0" />
+                    </label>
+                  </div>
+                  <label>
+                    Banner
+                    <input name="bannerUrl" type="url" placeholder="https://..." />
+                  </label>
+                  <label>
+                    Quantidade do produto
+                    <input name="quantity" type="number" min="1" step="1" value="1" />
+                  </label>
+                  <button class="button primary settings-submit" type="submit">Criar produto</button>
+                </form>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="shop-edit">
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Editar Produtos</h2>
+                  <p>Gerencie produtos publicados, estoque, preço, raridade e status de exibição.</p>
+                </div>
+                <div id="shopProductEditorList" class="shop-product-editor-list"></div>
+              </article>
+            </div>
+
+            <div class="settings-section" data-settings-section="bot-config">
+              <div class="settings-admin-head">
+                <div>
+                  <h2>Configurar Bot</h2>
+                  <p>Sincronize o ONE Bot com o Hub e gerencie as integrações.</p>
+                </div>
+              </div>
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Token do Bot</h2>
+                  <p>Token usado para buscar dados do bot Discord (membros, status).</p>
+                </div>
+                <form id="botTokenForm" class="discord-token-form">
+                  <label>
+                    Token do bot Discord
+                    <input id="botTokenInput" name="token" type="password" autocomplete="off" placeholder="Cole o token do bot" />
+                  </label>
+                  <button class="button primary" type="submit">Salvar token</button>
+                </form>
+              </article>
+              <article class="settings-panel">
+                <div class="settings-copy">
+                  <h2>Status do Bot</h2>
+                  <p>Veja o status atual do bot e reinicie se necessário.</p>
+                </div>
+                <div class="bot-admin-status">
+                  <div class="bot-admin-status-row">
+                    <span>Status</span>
+                    <span id="botAdminStatus" class="bot-status-indicator offline">
+                      <span class="bot-status-dot"></span>
+                      <span class="bot-status-label">Desconectado</span>
+                    </span>
+                  </div>
+                  <div class="bot-admin-status-row">
+                    <span>Servidores</span>
+                    <strong id="botAdminGuilds">-</strong>
+                  </div>
+                  <div class="bot-admin-status-row">
+                    <span>Comandos</span>
+                    <strong id="botAdminCommands">14</strong>
+                  </div>
+                </div>
+                <div class="settings-copy" style="margin-top: 16px;">
+                  <h2>Sincronização</h2>
+                  <p>Force a sincronização dos dados do bot com o Hub.</p>
+                </div>
+                <div class="settings-inline-actions">
+                  <button id="botSyncCommands" class="button primary" type="button">Sincronizar Comandos</button>
+                  <button id="botSyncStatus" class="button secondary" type="button">Sincronizar Status</button>
+                </div>
+              </article>
+            </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="eventEditOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="eventEditTitle">
+      <article class="event-edit-modal">
+        <div class="modal-head">
+          <div>
+            <h2 id="eventEditTitle">Editar Evento</h2>
+            <p>Atualize as informacoes do evento publicado.</p>
+          </div>
+          <button id="eventEditClose" class="modal-close" type="button" aria-label="Fechar">×</button>
+        </div>
+        <form id="eventEditForm" class="event-config event-edit-form">
+          <label>
+            Titulo do evento
+            <input name="title" type="text" maxlength="48" />
+          </label>
+          <label>
+            Descrição principal
+            <textarea name="mainDescription" maxlength="160" rows="3"></textarea>
+          </label>
+          <label>
+            Banner principal
+            <input name="bannerUrl" type="url" placeholder="https://..." />
+          </label>
+          <div class="form-row">
+            <label>
+              Horas
+              <input name="hours" type="text" maxlength="24" />
+            </label>
+            <label>
+              Local
+              <input name="location" type="text" maxlength="42" />
+            </label>
+            <label>
+              Premiação
+              <input name="reward" type="text" maxlength="48" />
+            </label>
+          </div>
+          <label>
+            Descrição do evento dentro do card
+            <textarea name="detailDescription" rows="7"></textarea>
+          </label>
+          <button class="button primary settings-submit" type="submit">Salvar alterações</button>
+        </form>
+      </article>
+    </div>
+
+    <div id="eventParticipantsOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="eventParticipantsTitle">
+      <article class="event-edit-modal participants-modal">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">Inscritos</p>
+            <h2 id="eventParticipantsTitle">Participantes do evento</h2>
+            <p id="eventParticipantsSubtitle">Jogadores participando agora.</p>
+          </div>
+          <button id="eventParticipantsClose" class="modal-close" type="button" aria-label="Fechar">×</button>
+        </div>
+        <div id="eventParticipantsList" class="participants-list"></div>
+      </article>
+    </div>
+
+    <div id="usersDirectoryOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="usersDirectoryTitle">
+      <article class="event-edit-modal users-directory-modal">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">Usuários</p>
+            <h2 id="usersDirectoryTitle">Configurar diretório do Hub</h2>
+            <p>Cadastre o token do bot e defina a origem da lista lateral.</p>
+          </div>
+          <button id="usersDirectoryClose" class="modal-close" type="button" aria-label="Fechar">×</button>
+        </div>
+        <form id="discordTokenForm" class="discord-token-form">
+          <label>
+            Token do bot Discord
+            <input id="discordBotTokenInput" name="token" type="password" autocomplete="off" placeholder="Cole o token do bot para uso local" />
+          </label>
+          <button class="button primary" type="submit">Salvar token</button>
+        </form>
+        <div class="users-directory-tabs" role="tablist" aria-label="Categorias de usuários">
+          <button class="active" type="button" data-users-view="discord-only">Discord sem login</button>
+          <button type="button" data-users-view="hub-users">Com login no Hub</button>
+        </div>
+      </article>
+    </div>
+
+    <aside id="usersDirectorySidebar" class="users-directory-sidebar hidden" aria-label="Diretório de usuários do Hub">
+      <div class="directory-sidebar-head">
+        <span class="directory-dot online"></span>
+        <strong id="directoryDiscordCount">0</strong>
+        <span class="directory-dot hub"></span>
+        <strong id="directoryHubCount">0</strong>
+      </div>
+      <div class="directory-sidebar-groups">
+        <section>
+          <h3>Discord sem login — <span id="directoryDiscordOnlyTotal">0</span></h3>
+          <div id="directoryDiscordOnlyList" class="directory-member-list"></div>
+        </section>
+        <section>
+          <h3>Com login no Hub — <span id="directoryHubUsersTotal">0</span></h3>
+          <div id="directoryHubUsersList" class="directory-member-list"></div>
+        </section>
+      </div>
+    </aside>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
