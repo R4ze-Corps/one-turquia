@@ -2,3 +2,9 @@
 node_modules/
 node-server*.log
 npm-debug.log*
+
+# Local data
+data.json
+outputs/
+work/
+node_modules/
